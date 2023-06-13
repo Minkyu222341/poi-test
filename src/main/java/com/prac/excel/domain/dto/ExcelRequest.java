@@ -19,12 +19,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ExcelRequest {
 
-  private String title;
   private String cellStatus;
 
   @Builder
-  public ExcelRequest(String title, String cellStatus) {
-    this.title = title;
+  public ExcelRequest(String cellStatus) {
     this.cellStatus = cellStatus;
   }
 }

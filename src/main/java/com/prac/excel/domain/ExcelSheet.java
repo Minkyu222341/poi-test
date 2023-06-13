@@ -25,16 +25,13 @@ public class ExcelSheet {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  private String title;
-
   @Lob
-  @Column(columnDefinition = "json")
+  @Column(columnDefinition = "jsonb")
   private String cellStatus;
 
   @Builder
-  public ExcelSheet(Long id, String title, String cellStatus) {
+  public ExcelSheet(Long id, String cellStatus) {
     this.id = id;
-    this.title = title;
     this.cellStatus = cellStatus;
   }
 

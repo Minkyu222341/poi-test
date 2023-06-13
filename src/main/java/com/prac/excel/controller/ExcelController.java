@@ -27,7 +27,7 @@ public class ExcelController {
   private final ExcelService excelService;
 
   @GetMapping("/get")
-  public ResponseEntity<ExcelResponse> getCell() {
+  public ResponseEntity<?> getCell() {
     return excelService.getCell();
   }
 
