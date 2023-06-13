@@ -1,5 +1,6 @@
 package com.prac.excel.domain;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -23,10 +24,13 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Schema(description = "셀 헤더")
 public class CellNum {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Schema(description = "식별자" , example = "1")
   private Long id;
+  @Schema(description = "셀 헤더" , example = "셀 헤더")
   private String header;
 
   @Builder

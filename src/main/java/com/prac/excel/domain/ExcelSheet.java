@@ -1,5 +1,6 @@
 package com.prac.excel.domain;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -20,21 +21,21 @@ import lombok.NoArgsConstructor;
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Schema(description = "셀 시트")
 public class ExcelSheet {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Schema(description = "식별자" , example = "1")
   private Long id;
 
-  private String title;
-
   @Lob
-  @Column(columnDefinition = "json")
+  @Column(columnDefinition = "jsonb")
+  @Schema(description = "셀 내용" , example = "ContentContentContentContent")
   private String cellStatus;
 
   @Builder
-  public ExcelSheet(Long id, String title, String cellStatus) {
+  public ExcelSheet(Long id, String cellStatus) {
     this.id = id;
-    this.title = title;
     this.cellStatus = cellStatus;
   }
 

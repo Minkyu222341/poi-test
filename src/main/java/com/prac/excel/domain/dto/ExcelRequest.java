@@ -1,5 +1,7 @@
 package com.prac.excel.domain.dto;
 
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,12 +21,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ExcelRequest {
 
-  private String title;
+  @Schema(example = "ACTIVE / SLEEP")
   private String cellStatus;
 
   @Builder
-  public ExcelRequest(String title, String cellStatus) {
-    this.title = title;
+  public ExcelRequest(String cellStatus) {
     this.cellStatus = cellStatus;
   }
 }

@@ -1,5 +1,7 @@
 package com.prac.excel.domain.dto;
 
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Getter;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,4 +20,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Getter
 @Builder
 public class ExcelResponse {
+  @Schema( example = "실패 응답 데이터")
+  private String response;
+
+
 }
