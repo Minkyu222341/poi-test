@@ -28,9 +28,6 @@ public class ExcelSheet {
   @Schema(description = "식별자" , example = "1")
   private Long id;
 
-  @Lob
-  @Column(columnDefinition = "jsonb")
-  @Schema(description = "셀 내용" , example = "ContentContentContentContent")
   private String cellStatus;
 
   @Builder
