@@ -20,6 +20,4 @@ import java.util.List;
  * 2023-06-12        MinKyu Park       최초 생성
  */
 public interface ExcelSheetRepository extends JpaRepository<ExcelSheet, Long> {
-  @Query(value = "SELECT e.cellStatus FROM ExcelSheet e")
-  List<JsonNode> findAllCellStatus();
 }

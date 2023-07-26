@@ -17,19 +17,20 @@
 #      platform: postgresql
 #      mode: always
 
-
 spring:
   datasource:
     url:  jdbc:h2:~/test2
     username: sa
     password:
-    driver-class-name: org.h2.Driver
+
+
   h2:
     console:
       enabled: true
   jpa:
     hibernate:
       ddl-auto: create-drop
+    defer-datasource-initialization: true
     properties:
       hibernate:
         show_sql: true

@@ -20,8 +20,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Getter
 @Builder
 public class ExcelResponse {
-  @Schema( example = "실패 응답 데이터")
-  private String response;
 
 
 }

@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 /**
  * packageName    : com.prac.excel.domain.dto
  * fileName       : ExcelRequest
@@ -20,12 +22,5 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class ExcelRequest {
-
-  @Schema(example = "ACTIVE / SLEEP")
-  private String cellStatus;
-
-  @Builder
-  public ExcelRequest(String cellStatus) {
-    this.cellStatus = cellStatus;
-  }
+    private List<String> headerNameList;
 }

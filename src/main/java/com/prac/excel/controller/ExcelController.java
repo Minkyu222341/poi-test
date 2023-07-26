@@ -9,12 +9,15 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.io.IOException;
 
 /**
  * packageName    : com.prac.excel.controller
@@ -35,15 +38,13 @@ public class ExcelController {
 
   @GetMapping("/get")
   @Operation(summary = "셀 목록 조회", description = "모든 셀의 목록을 조회합니다.")
-  @ApiResponse(responseCode = "200", description = "성공", content = @Content(schema = @Schema(implementation = ExcelSheet.class)))
-  @ApiResponse(responseCode = "400", description = "실패", content = @Content(schema = @Schema(implementation = ExcelResponse.class)))
   public ResponseEntity<?> getCell(ExcelRequest request) {
     return excelService.getCell(request);
   }
 
   @PostMapping("/post")
-  public ResponseEntity<String> addExcel(@RequestBody ExcelRequest request) {
-    return excelService.addCell(request);
+  public ResponseEntity<String> addExcel(@RequestBody ExcelRequest request , HttpServletResponse response) throws IOException {
+    return ResponseEntity.ok().body(excelService.downloadExcel(request,response));
   }
 
 }

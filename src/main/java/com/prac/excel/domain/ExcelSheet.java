@@ -7,6 +7,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+
 /**
  * packageName    : com.prac.excel
  * fileName       : ExcelSheet
@@ -27,14 +29,15 @@ public class ExcelSheet {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Schema(description = "식별자" , example = "1")
   private Long id;
-
-  private String cellStatus;
+  private String orderId;
+  private String orderCustomId;
+  private LocalDate closeTime;
 
   @Builder
-  public ExcelSheet(Long id, String cellStatus) {
+  public ExcelSheet(Long id, String orderId, String orderCustomId, LocalDate closeTime) {
     this.id = id;
-    this.cellStatus = cellStatus;
+    this.orderId = orderId;
+    this.orderCustomId = orderCustomId;
+    this.closeTime = closeTime;
   }
-
-
 }
