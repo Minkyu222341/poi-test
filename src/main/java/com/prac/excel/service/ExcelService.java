@@ -35,7 +35,6 @@ import java.util.*;
 @Service
 @RequiredArgsConstructor
 public class ExcelService {
-    private final CellRepository cellRepository;
     private final ExcelSheetRepository excelSheetRepository;
 
 
@@ -56,7 +55,8 @@ public class ExcelService {
         headerCellStyle.setFont(headerFont);
 
         // 데이터 조회 및 헤더 설정
-        List<ExcelSheet> members = excelSheetRepository.findAll();
+        List<ExcelSheet> dataList = excelSheetRepository.findAll();
+
         int headerIndex = 0;
         for (String header : request.getHeaders()) {
             headerRow.createCell(headerIndex++).setCellValue(header);
@@ -76,12 +76,12 @@ public class ExcelService {
         }
 
         int rowNum = 1;
-        for (ExcelSheet member : members) {
+        for (ExcelSheet data : dataList) {
             Row row = sheet.createRow(rowNum++);
             int cellIndex = 0;
             for (Field field : requiredFields) {
                 try {
-                    Object fieldValue = field.get(member);
+                    Object fieldValue = field.get(data);
                     row.createCell(cellIndex++).setCellValue(fieldValue.toString());
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
@@ -97,7 +97,7 @@ public class ExcelService {
 
         // 컨텐츠 타입과 파일 이름 설정
         response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
-        response.setHeader("Content-Disposition", "attachment; filename=members.xlsx");
+        response.setHeader("Content-Disposition", "attachment; filename=cellTest.xlsx");
 
         // 엑셀 파일 출력
         workbook.write(response.getOutputStream());
