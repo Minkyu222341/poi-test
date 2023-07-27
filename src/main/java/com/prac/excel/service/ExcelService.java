@@ -16,9 +16,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.swing.border.Border;
 import java.io.IOException;
+import java.lang.reflect.Field;
+import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * packageName    : com.prac.excel.service
@@ -37,18 +38,6 @@ public class ExcelService {
     private final CellRepository cellRepository;
     private final ExcelSheetRepository excelSheetRepository;
 
-    public ResponseEntity<?> getCell(ExcelRequest request) {
-
-        return ResponseEntity.ok(null);
-    }
-
-
-    public ResponseEntity<String> addCell(ExcelRequest request) {
-
-
-        return null;
-    }
-
 
     public String downloadExcel(ExcelRequest request, HttpServletResponse response) throws IOException {
         // 엑셀 워크북 생성
@@ -65,27 +54,40 @@ public class ExcelService {
         Font headerFont = workbook.createFont();
         headerFont.setBold(true);
         headerCellStyle.setFont(headerFont);
-        // 데이터 조회
-        List<ExcelSheet> members = excelSheetRepository.findAll();// 데이터 조회를 적절히 수정해야 합니다.
 
-        headerRow.createCell(0).setCellValue("번호");
-        headerRow.createCell(1).setCellValue("오더 번호");
-        headerRow.createCell(2).setCellValue("주문 번호");
-        headerRow.createCell(3).setCellValue("마감 시간");
-
-
-        // 데이터 행 생성
-        int rowNum = 1;
-        for (ExcelSheet member : members) { // members를 적절한 데이터 리스트로 변경해야 합니다.
-            Row row = sheet.createRow(rowNum++);
-            row.createCell(0).setCellValue(rowNum - 1);
-            row.createCell(1).setCellValue(member.getId());
-            row.createCell(3).setCellValue(member.getOrderCustomId());
-            row.createCell(4).setCellValue(member.getOrderId());
-            row.createCell(2).setCellValue(member.getCloseTime());
+        // 데이터 조회 및 헤더 설정
+        List<ExcelSheet> members = excelSheetRepository.findAll();
+        int headerIndex = 0;
+        for (String header : request.getHeaders()) {
+            headerRow.createCell(headerIndex++).setCellValue(header);
         }
-        List<String> data = new ArrayList<>();
 
+
+        // 필요한 필드 정보 가져오기
+        List<Field> requiredFields = new ArrayList<>();
+        for (String param : request.getParams()) {
+            try {
+                Field field = ExcelSheet.class.getDeclaredField(param);
+                field.setAccessible(true);
+                requiredFields.add(field);
+            } catch (NoSuchFieldException e) {
+                e.printStackTrace();
+            }
+        }
+
+        int rowNum = 1;
+        for (ExcelSheet member : members) {
+            Row row = sheet.createRow(rowNum++);
+            int cellIndex = 0;
+            for (Field field : requiredFields) {
+                try {
+                    Object fieldValue = field.get(member);
+                    row.createCell(cellIndex++).setCellValue(fieldValue.toString());
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
 
         // 셀 크기 조정
         for (int i = 0; i < headerRow.getLastCellNum(); i++) {
@@ -102,6 +104,7 @@ public class ExcelService {
 
         // 워크북 및 스트림 닫기
         workbook.close();
+
         return "ok";
     }
 

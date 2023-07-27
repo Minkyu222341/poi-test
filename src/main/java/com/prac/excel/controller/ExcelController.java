@@ -36,12 +36,6 @@ import java.io.IOException;
 public class ExcelController {
   private final ExcelService excelService;
 
-  @GetMapping("/get")
-  @Operation(summary = "셀 목록 조회", description = "모든 셀의 목록을 조회합니다.")
-  public ResponseEntity<?> getCell(ExcelRequest request) {
-    return excelService.getCell(request);
-  }
-
   @PostMapping("/post")
   public ResponseEntity<String> addExcel(@RequestBody ExcelRequest request , HttpServletResponse response) throws IOException {
     return ResponseEntity.ok().body(excelService.downloadExcel(request,response));

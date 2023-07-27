@@ -28,13 +28,13 @@ public class ExcelSheet {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Schema(description = "식별자" , example = "1")
-  private Long id;
+  private Integer id;
   private String orderId;
   private String orderCustomId;
   private LocalDate closeTime;
 
   @Builder
-  public ExcelSheet(Long id, String orderId, String orderCustomId, LocalDate closeTime) {
+  public ExcelSheet(Integer id, String orderId, String orderCustomId, LocalDate closeTime) {
     this.id = id;
     this.orderId = orderId;
     this.orderCustomId = orderCustomId;

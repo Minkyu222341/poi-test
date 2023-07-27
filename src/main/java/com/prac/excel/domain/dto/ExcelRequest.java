@@ -22,5 +22,6 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 public class ExcelRequest {
-    private List<String> headerNameList;
+    private List<String> params;
+    private List<String> headers;
 }
